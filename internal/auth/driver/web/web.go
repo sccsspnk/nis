@@ -6,15 +6,14 @@ import (
 
 type WebAuthDriver struct {
 	driver *rod.Browser
-	page   *rod.Page
 }
 
 func NewWebAuthDriver() *WebAuthDriver {
+	driver := rod.New().MustConnect()
 	return &WebAuthDriver{
-		driver: rod.New(),
+		driver: driver,
 	}
 }
 
 func (d *WebAuthDriver) Auth(username, password string) {
-
 }

@@ -3,7 +3,6 @@ package auth
 import (
 	"fmt"
 	"image/color"
-	"log"
 
 	"gioui.org/layout"
 	"gioui.org/text"
@@ -11,7 +10,6 @@ import (
 	"gioui.org/widget"
 	"gioui.org/widget/material"
 
-	"github.com/sccsspnk/nis/internal/auth/driver/web"
 	"github.com/sccsspnk/nis/internal/navmanager"
 )
 
@@ -108,23 +106,20 @@ func (lp *LoginPage) Layout(gtx layout.Context, th *material.Theme) layout.Dimen
 func (lp *LoginPage) HandleEvents(gtx layout.Context) {
 	if lp.submit.Clicked(gtx) {
 		if err := lp.validateForm(); err != nil {
-			lp.errorMsg = err.Error()
+			lp.errorMsg = fmt.Sprintf("Предупреждение: %s", err.Error())
 		} else {
 			lp.errorMsg = ""
 			fmt.Printf("Успешный вход: %s\n", lp.username.Text())
-			webDriver := web.NewWebAuthDriver()
-			webDriver.Auth("", "")
+			// webDriver := web.NewWebAuthDriver()
+			// webDriver.Auth("", "")
 			lp.navigator.NavigateTo("home")
 		}
 	}
 
 	for {
-		ev, ok := lp.username.Update(gtx)
+		_, ok := lp.username.Update(gtx)
 		if !ok {
 			break
-		}
-		if _, ok := ev.(widget.SubmitEvent); ok {
-			log.Println("Change to password input")
 		}
 	}
 
@@ -135,7 +130,7 @@ func (lp *LoginPage) HandleEvents(gtx layout.Context) {
 		}
 		if _, ok := ev.(widget.SubmitEvent); ok {
 			if err := lp.validateForm(); err != nil {
-				lp.errorMsg = err.Error()
+				lp.errorMsg = fmt.Sprintf("Предупреждение: %s", err.Error())
 			} else {
 				lp.errorMsg = ""
 				fmt.Printf("Успешный вход: %s\n", lp.username.Text())

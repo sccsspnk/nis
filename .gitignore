@@ -2,3 +2,4 @@
 **/.config
 **/.pki
 **/go.sum
+**/config.dat
